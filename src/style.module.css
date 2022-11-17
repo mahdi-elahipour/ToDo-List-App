@@ -1,0 +1,207 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+}
+
+body {
+    background-color: rgb(43, 40, 40);
+    background: url(Photo/pngwing.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: 500px;
+    height: fit-content;
+    background-color: #333;
+    opacity: .97;
+    color: white;
+    margin: 50px auto 0 auto;
+    padding: 0 0 .5px 0;
+    border-radius: 7px;
+    box-shadow: 0 -5px 10px 1px rgba(29, 28, 28, 0.5);
+}
+
+.container>h3 {
+    width: fit-content;
+    margin: auto;
+    padding: 10px 0;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 12px;
+    background-color: #444;
+    margin: 10px auto;
+    border-radius: 7px;
+    width: 95%;
+
+
+}
+
+.warning {
+    animation: warning .3s forwards;
+}
+
+@keyframes warning {
+    0% {
+        background-color: rgb(247, 168, 168);
+    }
+
+    50% {
+        background-color: white;
+    }
+
+    75% {
+        background-color: rgb(248, 165, 165);
+    }
+
+    100% {
+        background-color: white;
+    }
+}
+
+.task>div:nth-child(1) {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.task>div:nth-child(1)>span:nth-child(1) {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    background-color: white;
+    color: black;
+}
+
+.wordLengthAlert {
+    position: relative;
+    background-color: gray;
+    top: -44px;
+    border-radius: 7px 7px 0 0;
+    z-index: -1;
+    padding: 7px;
+}
+
+
+.task>div:nth-child(2) {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.addToDoForm {
+    padding: 0 10px;
+}
+
+.addToDoForm input {
+    padding: 9px 12px;
+    width: calc(100% - 120px);
+    border-radius: 7px 0 0 7px;
+    outline: none;
+    border: none;
+
+}
+
+.addToDoForm button {
+    width: 100px;
+    padding: 9px;
+    color: white;
+    background: green;
+    border: none;
+    border-radius: 0 7px 7px 0;
+    cursor: pointer;
+}
+
+.updateToDoForm {
+    padding: 0 10px;
+    width: fit-content;
+    display: block;
+    margin: 0px auto 10px auto;
+}
+
+.updateToDoForm input {
+    padding: 9px 12px;
+    width: calc(100% - 220px);
+    outline: none;
+    border: none;
+
+}
+
+.updateToDoForm button {
+    width: 100px;
+    padding: 9px;
+    color: white;
+    background: green;
+    border: none;
+    border-radius: 0 7px 7px 0;
+    cursor: pointer;
+}
+
+.updateToDoForm button:nth-child(1) {
+    border-radius: 7px 0 0 7px;
+
+}
+
+.complete {
+    text-decoration: line-through;
+    opacity: .5;
+}
+
+.dontShow {
+    display: none;
+}
+
+.filters {
+    display: flex;
+    flex-direction: space-between;
+    padding: 12px 12px;
+}
+
+.filters>span {
+    background-color: rgb(63, 68, 63);
+    padding: 7px 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color .2s ease-out;
+}
+
+.filters>span:nth-child(1) {
+    border-radius: 7px 0 0 7px;
+    border-right: 1px dotted rgba(240, 240, 240, .7);
+}
+
+.filters>span:nth-child(3) {
+    border-radius: 0 7px 7px 0;
+    border-left: 1px dotted rgba(240, 240, 240, .7);
+
+}
+
+.filters span:hover {
+    background: rgba(58, 55, 55, 0.7);
+}
+
+span>span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 5px;
+    text-shadow: 0px 0px 4px black;
+
+}
+
+.filters span:nth-child(2)>span {
+    background-color: orange;
+}
+
+.filters span:nth-child(3)>span {
+    background-color: rgb(72, 75, 245);
+}
