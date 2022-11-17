@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import style from './style.module.css'
+import React, { useState } from 'react';
+import style from './Styles/style.module.css';
+import './Styles/fontStyle.css';
+import trash from './Icons/trash.svg';
+import update from './Icons/pen.svg';
+import mark from './Icons/check.svg';
 function App(props) {
-    const [toDo, setToDo] = useState([
-        { id: 1, title: 'task 1', status: false },
-        { id: 2, title: 'task 2', status: false }
-    ])
+    const [toDo, setToDo] = useState([]);
     const [taskFilter, setTaskFilter] = useState([]);
     const [falsytruthy, setFalsyTruthy] = useState(true);
     const [wordLentgthAlert, setWordLengthAlert] = useState('');
@@ -153,9 +154,9 @@ function App(props) {
                         <span className={task.status ? style.complete : ''}>{task.title}</span>
                     </div>
                     <div>
-                        <span onClick={() => deleteToDo(task.id)}>trash</span>
-                        <span onClick={() => checkForUpdate(task.id)}>update</span>
-                        <span onClick={() => markOn(task.id)}>markon</span>
+                        <span onClick={() => deleteToDo(task.id)}><img src={trash} width='22px' alt='trash'/></span>
+                        <span onClick={() => checkForUpdate(task.id)}><img src={update} width='22px' alt='update'/></span>
+                        <span onClick={() => markOn(task.id)}><img src={mark} width='22px' alt='mark'/></span>
                     </div>
                 </div>
             )}

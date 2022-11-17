@@ -7,9 +7,10 @@
 
 body {
     background-color: rgb(43, 40, 40);
-    background: url(Photo/pngwing.png);
+    background: url(../Photo/pngwing.png);
     background-position: right top;
     background-repeat: no-repeat;
+    /* font-family: mom; */
 }
 
 .container {
@@ -33,15 +34,17 @@ body {
 .task {
     display: flex;
     justify-content: space-between;
-    padding: 5px 12px;
+    align-items: center;
+    padding: 10px 12px;
     background-color: #444;
     margin: 10px auto;
     border-radius: 7px;
     width: 95%;
-
-
 }
-
+.task>div:nth-child(2) span>img:hover{
+    filter: drop-shadow(1.5px 1.5px 2px rgb(36, 34, 34));
+    cursor: pointer;
+}
 .warning {
     animation: warning .3s forwards;
 }
@@ -68,6 +71,7 @@ body {
     display: flex;
     gap: 8px;
     align-items: center;
+    /* font-size: 15px; */
 }
 
 .task>div:nth-child(1)>span:nth-child(1) {
@@ -93,6 +97,10 @@ body {
     display: flex;
     gap: 8px;
     align-items: center;
+}
+.task>div:nth-child(2) span{
+    width:22px;
+    height: 22px;
 }
 
 .addToDoForm {
