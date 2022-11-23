@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import style from './Styles/style.module.css';
 import './Styles/fontStyle.css';
+import AddToDo from './Components/AddToDo';
+import ToDos from './Components/ToDos';
 import trash from './Icons/trash.svg';
 import update from './Icons/pen.svg';
 import mark from './Icons/check.svg';
+import FilterButtons from './Components/FilterButtons';
+import TaskFilter from './Components/TaskFilter';
+import UpdateToDo from './Components/UpdateToDo';
+
+export const UpdateContext = createContext();
 function App(props) {
     const [toDo, setToDo] = useState([]);
     const [taskFilter, setTaskFilter] = useState([]);
     const [falsytruthy, setFalsyTruthy] = useState(true);
-    const [wordLentgthAlert, setWordLengthAlert] = useState('');
+    const [wordLengthAlert, setWordLengthAlert] = useState('');
     //Temp States
     const [newTask, setNewTask] = useState('');
     const [toDoCheckUpdate, setToDoCheckUpdate] = useState('');
 
-
+    // add ToDo to List
     function addToDo(e) {
         let task;
         task = {
@@ -21,35 +28,38 @@ function App(props) {
             title: newTask,
             status: false
         }
-       setToDo([...toDo, task]);
-       e.target.previousSibling.value='';
-       
-    }
+        setToDo([...toDo, task]);
+        e.target.previousSibling.value = '';
 
+    }
+    //delete ToDo from List
     function deleteToDo(id) {
         const newTask = toDo.filter(task => {
             if (task.id !== id) {
                 return task;
             }
+            return false;
         })
         setToDo(newTask);
     }
-
+    //check selected item in list for Update
     function checkForUpdate(id) {
         const tIndex = toDo.findIndex((task) => {
             if (task.id === id) {
                 return task;
             }
-
+            return false;
 
         })
         setToDoCheckUpdate(toDo[tIndex])
     }
-
+    //cancel update
     function cancelUpdate() {
         setToDoCheckUpdate('')
     }
+    //update ToDo
     function updateToDo(id) {
+        console.log(id)
         const newTask = toDo.map((task) => {
             if (task.id === id) {
                 return {
@@ -58,13 +68,11 @@ function App(props) {
                 }
             }
             return task;
-
-
         })
 
         setToDo(newTask)
     }
-
+    //mark as completed or uncompleted
     function markOn(id) {
         const newTask = toDo.map(task => {
             if (task.id === id) {
@@ -100,27 +108,33 @@ function App(props) {
         else
             setToDoCheckUpdate({ ...toDoCheckUpdate, title: e.target.value })
     }
+    //filter task as completed
     function completed(e) {
         const filteredTasks = toDo.filter(task => {
             if (task.status === true) {
                 return task;
             }
+            return false;
 
         })
         setTaskFilter(filteredTasks)
         falsytruthy ? setFalsyTruthy(!falsytruthy) : setFalsyTruthy(falsytruthy)
 
     }
+    //filter task as uncompleted
     function uncompleted(e) {
         const filteredTasks = toDo.filter(task => {
             if (task.status === false) {
                 return task;
             }
+            return false;
+
         })
         setTaskFilter(filteredTasks)
         falsytruthy ? setFalsyTruthy(!falsytruthy) : setFalsyTruthy(falsytruthy)
 
     }
+    //show all task
     function allTasks(e) {
         const tasks = toDo.map(task => {
             return task;
@@ -131,43 +145,48 @@ function App(props) {
 
     return (
         <div className={style.container}>
-            {wordLentgthAlert && <div className={style.wordLengthAlert}>{wordLentgthAlert}</div>}
+            {wordLengthAlert && <div className={style.wordLengthAlert}>{wordLengthAlert}</div>}
             <h3>To Do List</h3>
-            {toDoCheckUpdate && <span className={style.updateToDoForm}><button onClick={() => cancelUpdate()}>Cancel</button><input type='text' name='updateToDoInput' onChange={(e) => handleChange(e)} value={toDoCheckUpdate.title} /><button onClick={() => updateToDo(toDoCheckUpdate.id)}>Update</button></span>}
-            <span className={style.addToDoForm}><input type='text' name='addToDoInput' value={newTask.title} onChange={(e) => handleChange(e)} /><button onClick={(e) => e.target.previousSibling.value ? addToDo(e):e.target.previousSibling.classList.add(style.warning)}>Add ToDo</button></span>
-            {toDo && toDo.length ? '' : <p style={{ textAlign: "center", padding: "10px" }}>no Task...</p>}
+            {
+                toDoCheckUpdate &&
 
-            <div className={falsytruthy && style.dontShow}>
-                {taskFilter && taskFilter.map((task, index) =>
-                    <div key={task.id} className={style.task}>
-                        <div>
-                            <span>{index + 1}</span>
-                            <span className={task.status ? style.complete : ''}>{task.title}</span>
-                        </div>
-                    </div>)
+                // Update ToDo Component
+
+                <UpdateToDo
+
+                    style={style}
+                    cancelUpdate={cancelUpdate}
+                    handleChange={handleChange}
+                    toDoCheckUpdate={toDoCheckUpdate}
+                    updateToDo={updateToDo}
+
+                />
+            }
+
+            {/* Add ToDo Component */}
+
+            <AddToDo style={style.addToDoForm} newtask={newTask} changeHandler={(e) => handleChange(e)} warningStyle={style.warning} addtodo={(e) => addToDo(e)} />
+            {toDo && toDo.length ? '' : <p style={{ textAlign: "center", padding: "10px" }}>no task is defined...</p>}
+
+            {/* Task Filter(Completed,Uncompleted,All Tasks) */}
+
+            <TaskFilter falsytruthy={falsytruthy} style={style} taskFilter={taskFilter} />
+
+            <UpdateContext.Provider value={{ willUpdateTask: checkForUpdate, deleteTask: deleteToDo, markTask: markOn, trashIcon: trash, updateIcon: update, markIcon: mark }}>
+                {
+                    toDo && falsytruthy && <ToDos todos={toDo} style={style} />
                 }
-            </div>
-            {toDo && falsytruthy && toDo.map((task, index) =>
-                <div key={task.id} className={style.task}>
-                    <div>
-                        <span>{index + 1}</span>
-                        <span className={task.status ? style.complete : ''}>{task.title}</span>
-                    </div>
-                    <div>
-                        <span onClick={() => deleteToDo(task.id)}><img src={trash} width='22px' alt='trash'/></span>
-                        <span onClick={() => checkForUpdate(task.id)}><img src={update} width='22px' alt='update'/></span>
-                        <span onClick={() => markOn(task.id)}><img src={mark} width='22px' alt='mark'/></span>
-                    </div>
-                </div>
-            )}
+            </UpdateContext.Provider>
+            
+            {/* filter buttons */}
+            <FilterButtons
+                style={style}
+                toDo={toDo}
+                completed={completed}
+                uncompleted={uncompleted}
+                allTasks={allTasks}
+            />
 
-            <div className={style.options}>
-                <div className={style.filters}>
-                    <span name='completed' onClick={(e) => completed(e)}>Completed<span>{toDo.filter(task => task.status === true).length}</span></span>
-                    <span name='uncompleted' onClick={(e) => uncompleted(e)}>UnCompleted<span>{toDo.filter(task => task.status === false).length}</span></span>
-                    <span name='all' onClick={(e) => allTasks(e)}>All<span>{toDo.length}</span></span>
-                </div>
-            </div>
         </div>
     );
 }
